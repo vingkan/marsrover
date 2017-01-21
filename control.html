@@ -6,6 +6,7 @@
 		<link rel="stylesheet" type="text/css" href="assets/reset.css">
 		<!-- <link rel="stylesheet" type="text/less" href="assets/main.less"> -->
 		<link rel="stylesheet" type="text/css" href="assets/main.css">
+		<script type="text/javascript" src="lib/promise.min.js"></script>
 		<script type="text/javascript" src="lib/less.min.js"></script>
 		<script type="text/javascript" src="lib/moment.min.js"></script>
 		<script type="text/javascript" src="lib/d3.min.js"></script>
@@ -33,12 +34,34 @@
 
 		<div class="container">
 			<h1>Mars Rover Game</h1>
+			<div id="panel-1"></div>
 		</div>
 
 		<script type="text/javascript" src="lib/control.js"></script>
+		<script type="text/javascript" src="lib/module.js"></script>
 		<script type="text/javascript">
 
+			var sampleInterface = {
+				type: 'buttongroup',
+				name: 'Orbital Reference',
+				options: ['Linear', 'Parabolic', 'Polynomial']
+			}
 
+			var sampleTask = {
+				instruction: 'Set Orbital Reference to Parabolic',
+				validate: function(clicked){
+					var res = false;
+					if(clicked.option === 'Parabolic'){
+						res = true;
+					}
+					return res;
+				}
+			}
+
+			var module1 = ControlModule('panel-1', sampleInterface);
+				module1.then(function(module){
+					module.assignTask(sampleTask);
+				});
 
 		</script>
 	
