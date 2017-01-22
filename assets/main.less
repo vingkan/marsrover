@@ -1,4 +1,5 @@
-@Rust: 	#c1440e;
+@Rust: #c1440e;
+@Charcoal: #1a1a1a;
 
 .MainFont(){
 	font-family: "Share Tech Mono";
@@ -11,19 +12,26 @@ html, body {
 	.MainFont();
 }
 
-div.terminal {
+.BoxModel(){
+	margin: 10px;
+	padding: 10px;
+}
 
+div.terminal {
+	.BoxModel();
+	background: @Charcoal;
+	color: white;
 }
 
 div.panel {
+	.BoxModel();
 	display: inline-block;
-	width: 300px;
-	margin: 10px;
-	padding: 10px;
 	background: white;
 }
 
 div.module {
+
+	width: 300px;
 
 	h2 {
 		margin: 10px;
@@ -35,10 +43,10 @@ div.module {
 
 button {
 	.MainFont();
-	margin: 10px;
-	padding: 10px;
+	.BoxModel();
 	font-size: 15px;
 	line-height: 20px;
+	background: @Rust;
 	border: none;
 	outline: none;
 	color: white;
