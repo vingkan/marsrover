@@ -37,31 +37,13 @@
 			<div id="panel-1" class="panel"></div>
 		</div>
 
-		<script type="text/javascript" src="lib/control.js"></script>
+		<script type="text/javascript" src="lib/interfaces.js"></script>
+		<script type="text/javascript" src="lib/tasks.js"></script>
+		<script type="text/javascript" src="lib/main.js"></script>
 		<script type="text/javascript" src="lib/module.js"></script>
 		<script type="text/javascript">
 
-			var module1 = ControlModule('panel-1', 'itf0001');
-				module1.then(function(module){
-					module.assignTask(sampleTask);
-				});
 
-			var panels = document.getElementsByClassName('panel');
-			var promises = [];
-			for(var p = 0; p < panels.length; p++){
-				var panel = panels[p];
-				var itf = interfaceManager.getInterface(panel.id);
-				var promise = ControlModule(panel.id, itf);
-				promises.push(promise);
-			}
-			Promise.all(promises).then(function(modules){
-				var midx = Math.floor(modules.length * Math.random());
-				modules[midx].getTask();
-				window.addEventListener('taskcompleted', function(e){
-					midx = Math.floor(modules.length * Math.random());
-					modules[midx].getTask();
-				});
-			});
 
 		</script>
 	
