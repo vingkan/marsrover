@@ -34,36 +34,34 @@
 
 		<div class="container">
 			<h1>Mars Rover Game</h1>
-			<div id="panel-1"></div>
+			<div id="panel-1" class="panel"></div>
 		</div>
 
 		<script type="text/javascript" src="lib/control.js"></script>
 		<script type="text/javascript" src="lib/module.js"></script>
 		<script type="text/javascript">
 
-			var sampleInterface = {
-				id: 'itf0001',
-				type: 'buttongroup',
-				name: 'Orbital Reference',
-				options: ['Linear', 'Parabolic', 'Polynomial']
-			}
-
-			var sampleTask = {
-				id: 'tsk0001',
-				instruction: 'Set Orbital Reference to Parabolic',
-				validate: function(clicked){
-					var res = false;
-					if(clicked.option === 'Parabolic'){
-						res = true;
-					}
-					return res;
-				}
-			}
-
-			var module1 = ControlModule('panel-1', sampleInterface);
+			var module1 = ControlModule('panel-1', 'itf0001');
 				module1.then(function(module){
 					module.assignTask(sampleTask);
 				});
+
+			var panels = document.getElementsByClassName('panel');
+			var promises = [];
+			for(var p = 0; p < panels.length; p++){
+				var panel = panels[p];
+				var itf = interfaceManager.getInterface(panel.id);
+				var promise = ControlModule(panel.id, itf);
+				promises.push(promise);
+			}
+			Promise.all(promises).then(function(modules){
+				var midx = Math.floor(modules.length * Math.random());
+				modules[midx].getTask();
+				window.addEventListener('taskcompleted', function(e){
+					midx = Math.floor(modules.length * Math.random());
+					modules[midx].getTask();
+				});
+			});
 
 		</script>
 	
