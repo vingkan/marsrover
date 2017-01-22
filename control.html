@@ -51,6 +51,9 @@
 				<div id="players"></div>
 				<button id="start">Begin Mission</button>
 			</div>
+			<div id="again" class="panel" style="display: none;">
+				<button onclick="retry();">Retry Mission</button>
+			</div>
 			<div id="panel-1" class="panel panel-module"></div>
 			<div id="panel-2" class="panel panel-module"></div>
 			<div id="panel-3" class="panel panel-module"></div>
@@ -61,7 +64,7 @@
 		<script type="text/javascript" src="lib/tasks.js"></script>
 		<script type="text/javascript" src="lib/main.js"></script>
 		<script type="text/javascript" src="lib/module.js"></script>
-		<script async src="https://www.youtube.com/iframe_api"></script>
+		<!--<script async src="https://www.youtube.com/iframe_api"></script>
 		<script>
 			function onYouTubeIframeAPIReady() {
 				var player;
@@ -88,7 +91,7 @@
 				});
 			}
 			// Written by @labnol 
-		</script>
+		</script>-->
 		<script type="text/javascript">
 
 			var canvas = document.getElementById('obscure');
