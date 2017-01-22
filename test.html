@@ -33,8 +33,15 @@
 	<body>
 
 		<div class="container">
+			<select id="interface-id">
+				<option>Interface</option>
+			</select>
+			<select id="task-id">
+				<option>Task</option>
+			</select>
+			<button id="test-selector">Start Test</button>
 			<div id="terminal-test" class="terminal">
-				<h1>Testing Terminal</h1>
+				Testing Terminal.
 			</div>
 			<div id="panel-test" class="panel panel-module"></div>
 		</div>
@@ -44,16 +51,41 @@
 		<script type="text/javascript" src="lib/module.js"></script>
 		<script type="text/javascript">
 
-			var interfaceID = 'itf0002';
-			var taskID = 'tsk0003';
+			/*var interface_id = 'itf0002';
+			var task_id = 'tsk0003';
+			startTest(interfaceID, taskID);*/
 
-			var terminal = document.getElementById('terminal-test');
-			var setup = ControlModule('panel-test', interfaceID);
-			setup.then(function(module){
+			function startTest(interfaceID, taskID){
+				var terminal = document.getElementById('terminal-test');
 				var task = TASKS[taskID];
-					task.id = taskID;
-				module.task = task;
-				terminal.innerText = task.instruction;
+				if(task.interface === interfaceID){
+					var setup = ControlModule('panel-test', interfaceID);
+					setup.then(function(module){
+						task.id = taskID;
+						module.task = task;
+						terminal.innerText = task.instruction;
+					});					
+				}
+				else{
+					console.error('Interface and Task are not compatible!');
+				}
+			}
+
+			var itfSelector = document.getElementById('interface-id');
+			for(var i in INTERFACES){
+				var itf = INTERFACES[i];
+				var opt = '<option value="' + i + '">' + itf.name + '</option>';
+				itfSelector.innerHTML += opt;
+			}
+			var tskSelector = document.getElementById('task-id');
+			for(var t in TASKS){
+				var tsk = TASKS[t];
+				var opt = '<option value="' + t + '">' + tsk.instruction + '</option>';
+				tskSelector.innerHTML += opt;
+			}
+			var testSelector = document.getElementById('test-selector');
+			testSelector.addEventListener('click', function(e){
+				startTest(itfSelector.value, tskSelector.value);
 			});
 
 		</script>
