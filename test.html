@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Mars Rover</title>
+		<!--<link rel="icon" type="img/png" href="style/favicon.png" style="width:30px;">-->
+		<link rel="stylesheet" type="text/css" href="assets/reset.css">
+		<!-- <link rel="stylesheet" type="text/less" href="assets/main.less"> -->
+		<link rel="stylesheet" type="text/css" href="assets/main.css">
+		<script type="text/javascript" src="lib/promise.min.js"></script>
+		<script type="text/javascript" src="lib/less.min.js"></script>
+		<script type="text/javascript" src="lib/moment.min.js"></script>
+		<script type="text/javascript" src="lib/d3.min.js"></script>
+		<link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet">
+		<script src="https://www.gstatic.com/firebasejs/3.6.6/firebase.js"></script>
+		<script>
+			// Initialize Firebase
+			var config = {
+				apiKey: "AIzaSyAviWCsQeaHd5YhIMEbXohql3eR6MC1tuA",
+				authDomain: "marsteam-6522c.firebaseapp.com",
+				databaseURL: "https://marsteam-6522c.firebaseio.com",
+				storageBucket: "marsteam-6522c.appspot.com",
+				messagingSenderId: "487026784695"
+			};
+			firebase.initializeApp(config);
+		</script>
+		<style>
+
+
+
+		</style>
+	</head>
+
+	<body>
+
+		<div class="container">
+			<div id="terminal-test" class="terminal">
+				<h1>Testing Terminal</h1>
+			</div>
+			<div id="panel-test" class="panel panel-module"></div>
+		</div>
+
+		<script type="text/javascript" src="lib/interfaces.js"></script>
+		<script type="text/javascript" src="lib/tasks.js"></script>
+		<script type="text/javascript" src="lib/module.js"></script>
+		<script type="text/javascript">
+
+			var interfaceID = 'itf0002';
+			var taskID = 'tsk0003';
+
+			var terminal = document.getElementById('terminal-test');
+			var setup = ControlModule('panel-test', interfaceID);
+			setup.then(function(module){
+				var task = TASKS[taskID];
+					task.id = taskID;
+				module.task = task;
+				terminal.innerText = task.instruction;
+			});
+
+		</script>
+	
+	</body>
+
+</html>
