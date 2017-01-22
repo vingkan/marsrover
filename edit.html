@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Mars Rover</title>
+		<!--<link rel="icon" type="img/png" href="style/favicon.png" style="width:30px;">-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="assets/reset.css">
+		<!-- <link rel="stylesheet" type="text/less" href="assets/main.less"> -->
+		<link rel="stylesheet" type="text/css" href="assets/main.css">
+		<script type="text/javascript" src="lib/promise.min.js"></script>
+		<link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet">
+		<script src="https://www.gstatic.com/firebasejs/3.6.6/firebase.js"></script>
+		<script>
+			// Initialize Firebase
+			var config = {
+				apiKey: "AIzaSyAviWCsQeaHd5YhIMEbXohql3eR6MC1tuA",
+				authDomain: "marsteam-6522c.firebaseapp.com",
+				databaseURL: "https://marsteam-6522c.firebaseio.com",
+				storageBucket: "marsteam-6522c.appspot.com",
+				messagingSenderId: "487026784695"
+			};
+			firebase.initializeApp(config);
+		</script>
+		<style>
+
+			h2 {
+				text-align: left;
+			}
+
+		</style>
+	</head>
+
+	<body>
+
+		<div class="container">
+			<h1>Game Globals Dashboard</h1>
+			<h2>Win</h2>
+			<input type="number" id="win" min="1" step="1" value="7">
+			<h2>Lose</h2>
+			<input type="number" id="lose" min="1" step="1" value="5">
+			<h2>Limit</h2>
+			<input type="number" id="limit" min="1" step="1" value="13">
+		</div>
+
+		<script type="text/javascript">
+
+			var db = firebase.database();
+			var ref= db.ref('globals');
+			ref.once('value', function(snapshot){
+				var val = snapshot.val();
+				for(var i in val){
+					var inp = document.getElementById(i)
+					inp.value = val[i];
+				}
+			});
+
+			document.getElementById('win').addEventListener('input', function(e){
+				db.ref('globals/win').set(parseInt(e.target.value, 10));
+			});
+			document.getElementById('lose').addEventListener('input', function(e){
+				db.ref('globals/lose').set(parseInt(e.target.value, 10));
+			});
+			document.getElementById('limit').addEventListener('input', function(e){
+				db.ref('globals/limit').set(parseInt(e.target.value, 10));
+			});
+
+		</script>
+	
+	</body>
+
+</html>
