@@ -8,8 +8,6 @@
 		<link rel="stylesheet" type="text/css" href="assets/main.css">
 		<script type="text/javascript" src="lib/promise.min.js"></script>
 		<script type="text/javascript" src="lib/less.min.js"></script>
-		<script type="text/javascript" src="lib/moment.min.js"></script>
-		<script type="text/javascript" src="lib/d3.min.js"></script>
 		<link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet">
 		<script src="https://www.gstatic.com/firebasejs/3.6.6/firebase.js"></script>
 		<script>
@@ -25,7 +23,10 @@
 		</script>
 		<style>
 
-
+			div#start {
+				display: block;
+				margin: 0 auto;
+			}
 
 		</style>
 	</head>
@@ -33,10 +34,14 @@
 	<body>
 
 		<div class="container">
-			<div class="terminal">
-				Instructions Terminal.
+			<div id="start" class="panel">
+				<h1>Start Playing</h1>
+				<div class="center">
+					<input id="key" type="text" placeholder="Mission ID">
+					<button id="join">Join Mission</button>
+					<button id="new">New Mission</button>
+				</div>
 			</div>
-			<div id="panel-1" class="panel panel-module"></div>
 		</div>
 
 		<script type="text/javascript" src="lib/interfaces.js"></script>
@@ -45,19 +50,38 @@
 		<script type="text/javascript" src="lib/module.js"></script>
 		<script type="text/javascript">
 
-			function getQueryParams(qs) {
-				qs = qs.split('+').join(' ');
-				var params = {},
-					tokens,
-					re = /[?&]?([^=]+)=([^&]*)/g;
-				while (tokens = re.exec(qs)) {
-					params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
-				}
-				return params;
-			}
+			var mission_id = false;
+			var player_id = false;
 
-			var params = getQueryParams(document.location.search);
-			join(params.mid, params.pid);
+			var newB = document.getElementById('new');
+			var joinB = document.getElementById('join');
+			newB.addEventListener('click', function(e){
+				var missionID = prompt('Create a new Mission ID.');
+					missionID.replace(/\W/g, '');
+				while(missionID.length < 1){
+					missionID = prompt('Create a new Mission ID.');
+					missionID.replace(/\W/g, '');
+				}
+				mission_id = missionID;
+				createMission(mission_id).then(function(done){
+
+				});
+			});
+			joinB.addEventListener('click', function(e){
+				var playerID = prompt('Choose a username');
+					playerID.replace(/\W/g, '');
+				while(playerID.length < 1){
+					playerID = prompt('Choose a username');
+					playerID.replace(/\W/g, '');
+				}
+				if(!mission_id){
+					var inMid = document.getElementById('key').value;
+						inMid.replace(/\W/g, '');
+					mission_id = inMid;
+				}
+				player_id = playerID;
+				window.location = 'control.html?mid=' + mission_id + '&pid=' + player_id;
+			});
 
 		</script>
 	
