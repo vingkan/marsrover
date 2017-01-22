@@ -28,6 +28,10 @@
 				margin: 0 auto;
 			}
 
+			p#note {
+				text-align: center;
+			}
+
 		</style>
 	</head>
 
@@ -35,7 +39,8 @@
 
 		<div class="container">
 			<div id="start" class="panel">
-				<h1>Start Playing</h1>
+				<h1>Initiate Mission</h1>
+				<p id="note">For exploration, for science.</p>
 				<div class="center">
 					<input id="key" type="text" placeholder="Mission ID">
 					<button id="join">Join Mission</button>
@@ -63,6 +68,8 @@
 					missionID.replace(/\W/g, '');
 				}
 				mission_id = missionID;
+				document.getElementById('key').value = mission_id;
+				document.getElementById('note').innerText = 'Share this code with your teammates.';
 				createMission(mission_id).then(function(done){
 
 				});

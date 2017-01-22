@@ -25,7 +25,9 @@
 		</script>
 		<style>
 
-
+			div#players {
+				margin: 10px;
+			}
 
 		</style>
 	</head>
@@ -36,7 +38,19 @@
 			<div class="terminal">
 				Instructions Terminal.
 			</div>
+			<div class="panel panel-module">
+				<div id="players"></div>
+				<button id="start">Begin Mission</button>
+			</div>
+			<div class="panel panel-module">
+				<div class="module">
+					<h2>Rover Camera Feed</h2>
+					<img id="camera" src="assets/camera_final.png" alt="image feed interrupted">
+				</div>
+			</div>
 			<div id="panel-1" class="panel panel-module"></div>
+			<div id="panel-2" class="panel panel-module"></div>
+			<div id="panel-3" class="panel panel-module"></div>
 		</div>
 
 		<script type="text/javascript" src="lib/interfaces.js"></script>
@@ -58,6 +72,11 @@
 
 			var params = getQueryParams(document.location.search);
 			join(params.mid, params.pid);
+
+			var startB = document.getElementById('start');
+				startB.addEventListener('click', function(e){
+
+				});
 
 		</script>
 	
