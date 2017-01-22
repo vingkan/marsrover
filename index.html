@@ -8,7 +8,6 @@
 		<!-- <link rel="stylesheet" type="text/less" href="assets/main.less"> -->
 		<link rel="stylesheet" type="text/css" href="assets/main.css">
 		<script type="text/javascript" src="lib/promise.min.js"></script>
-		<script type="text/javascript" src="lib/less.min.js"></script>
 		<link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet">
 		<script src="https://www.gstatic.com/firebasejs/3.6.6/firebase.js"></script>
 		<script>
@@ -24,12 +23,28 @@
 		</script>
 		<style>
 
-			div#start {
+			html {
+				background: url('assets/camera_final.png') no-repeat center center fixed; 
+				-webkit-background-size: cover;
+				-moz-background-size: cover;
+				-o-background-size: cover;
+				background-size: cover;
+			}
+
+			body {
+				background: transparent;
+			}
+
+			div#entry{
+				background: transparent;
+			}
+
+			div#entry, div#start {
 				display: block;
 				margin: 0 auto;
 			}
 
-			p#note {
+			p {
 				text-align: center;
 			}
 
@@ -39,15 +54,23 @@
 	<body>
 
 		<div class="container">
+			<div id="entry" class="panel">
+				<h1>Transmission</h1>
+				<p>Test your collaboration skills under pressure with a team of scientists to re-establish communication with a wary Mars rover.</p>
+				<p>Create a new mission below and share the Mission ID with your friends. Players can join from laptop or mobile.</p>
+			</div>
 			<div id="start" class="panel">
-				<h1>Play Transmission</h1>
-				<p id="note">For exploration, for science.</p>
+				<h2>Start Your Team Mission</h2>
+				<p id="note">For collaboration, for science.</p>
 				<div class="center">
 					<input id="key" type="text" placeholder="Mission ID">
 					<button id="join">Join Mission</button>
 					<button id="new">New Mission</button>
 				</div>
 			</div>
+			<br>
+			<p style="color: white;">Created at Boilermake IV by Sunny Shah and Vinesh Kannan</p>
+			<br>
 		</div>
 
 		<script type="text/javascript" src="lib/interfaces.js"></script>
