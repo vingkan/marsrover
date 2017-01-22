@@ -35,14 +35,16 @@
 
 	<body>
 
-		<div class="container">
+		<div class="container-control">
 			<div id="terminal-mission" class="terminal">
-				Instructions Terminal.
+				<p class="typewriter">Instructions Terminal.</p>
 			</div>
 			<div class="panel">
 				<div class="module">
 					<h2>Rover Camera Feed</h2>
-					<img id="camera" src="assets/camera_final.png" alt="image feed interrupted">
+					<div id="camera"></div>
+					<canvas id="obscure" width="300" height="300"></canvas>
+					<!-- <img id="camera" src="assets/camera_final.png" alt="image feed interrupted"> -->
 				</div>
 			</div>
 			<div id="welcome" class="panel">
@@ -52,13 +54,92 @@
 			<div id="panel-1" class="panel panel-module"></div>
 			<div id="panel-2" class="panel panel-module"></div>
 			<div id="panel-3" class="panel panel-module"></div>
+			<div id="panel-4" class="panel panel-module"></div>
 		</div>
 
 		<script type="text/javascript" src="lib/interfaces.js"></script>
 		<script type="text/javascript" src="lib/tasks.js"></script>
 		<script type="text/javascript" src="lib/main.js"></script>
 		<script type="text/javascript" src="lib/module.js"></script>
+		<script async src="https://www.youtube.com/iframe_api"></script>
+		<script>
+			function onYouTubeIframeAPIReady() {
+				var player;
+				player = new YT.Player('camera', {
+					videoId: 'KH1pma3bDdI', // YouTube Video ID
+					playerVars: {
+						autoplay: 1,        // Auto-play the video on load
+						controls: 0,        // Hide pause/play buttons in player
+						showinfo: 0,        // Hide the video title
+						modestbranding: 1,  // Hide the Youtube Logo
+						loop: 1,            // Run the video in a loop
+						fs: 0,              // Hide the full screen button
+						cc_load_policy: 0,  // Hide closed captions
+						iv_load_policy: 3,  // Hide the Video Annotations
+						autohide: 0,        // Hide video controls when playing
+						rel: 0,
+						playlist: 'KH1pma3bDdI'
+					},
+					events: {
+						onReady: function(e) {
+							e.target.mute();
+						}
+					}
+				});
+			}
+			// Written by @labnol 
+		</script>
 		<script type="text/javascript">
+
+			var canvas = document.getElementById('obscure');
+			var ctx = canvas.getContext('2d');
+
+			function clearRect(r){
+				//ctx.clearRect(0, 0, canvas.width, canvas.height);
+				ctx.clearRect(r.x, r.y, r.w, r.h);
+				drawRect({
+					x: 0,
+					y: 0,
+					width: canvas.width,
+					height: canvas.height,
+				}, 'transparent');
+			}
+
+			function drawRect(r, fill){
+				ctx.beginPath();
+				ctx.rect(r.x, r.y, r.w, r.h);
+				//ctx.stroke();
+				if(fill){
+					ctx.fillStyle = fill;
+					ctx.fill();
+				}
+				ctx.closePath();
+			}
+
+			var px = 16;
+			var py = 8;
+			var dx = canvas.width / px;
+			var dy = canvas.height / py;
+			for(var x = 0; x < px; x++){
+				for(var y = 0; y < py; y++){
+					var b = Math.floor(50 * Math.random());
+					var black = 'rgb(' + [b, b, b].join(',') + ')';
+					drawRect({x: x * dx, y: y * dy, w: dx, h: dy}, black);
+				}
+			}
+
+			function reduceObscurity(){
+				var clears = 12;
+				for(var i = 0; i < clears; i++){
+					var cx = Math.floor(px * Math.random());
+					var cy = Math.floor(py * Math.random());
+					clearRect({x: cx * dx, y: cy * dy, w: dx, h: dy});
+				}
+			}
+
+			function clearCanvas(){
+				clearRect({x: 0, y: 0, w: canvas.width, h: canvas.height});
+			}
 
 			function getQueryParams(qs) {
 				qs = qs.split('+').join(' ');
