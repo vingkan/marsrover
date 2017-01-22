@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Mars Rover</title>
+		<!--<link rel="icon" type="img/png" href="style/favicon.png" style="width:30px;">-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="assets/reset.css">
+		<!-- <link rel="stylesheet" type="text/less" href="assets/main.less"> -->
+		<link rel="stylesheet" type="text/css" href="assets/main.css">
+		<script type="text/javascript" src="lib/promise.min.js"></script>
+		<script type="text/javascript" src="lib/less.min.js"></script>
+		<link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet">
+		<script src="https://www.gstatic.com/firebasejs/3.6.6/firebase.js"></script>
+		<script>
+			// Initialize Firebase
+			var config = {
+				apiKey: "AIzaSyAviWCsQeaHd5YhIMEbXohql3eR6MC1tuA",
+				authDomain: "marsteam-6522c.firebaseapp.com",
+				databaseURL: "https://marsteam-6522c.firebaseio.com",
+				storageBucket: "marsteam-6522c.appspot.com",
+				messagingSenderId: "487026784695"
+			};
+			firebase.initializeApp(config);
+		</script>
+		<style>
+
+			div#start {
+				display: block;
+				margin: 0 auto;
+			}
+
+			p#note {
+				text-align: center;
+			}
+
+		</style>
+	</head>
+
+	<body>
+
+		<div class="container">
+			<div id="start" class="panel">
+				<h1>Initiate Mission</h1>
+				<p id="note">For exploration, for science.</p>
+				<div class="center">
+					<input id="key" type="text" placeholder="Mission ID">
+					<button id="join">Join Mission</button>
+					<button id="new">New Mission</button>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript" src="lib/interfaces.js"></script>
+		<script type="text/javascript" src="lib/tasks.js"></script>
+		<script type="text/javascript" src="lib/main.js"></script>
+		<script type="text/javascript" src="lib/module.js"></script>
+		<script type="text/javascript">
+
+			var mission_id = false;
+			var player_id = false;
+
+			var newB = document.getElementById('new');
+			var joinB = document.getElementById('join');
+			newB.addEventListener('click', function(e){
+				var missionID = prompt('Create a new Mission ID.');
+					missionID.replace(/\W/g, '');
+				while(missionID.length < 1){
+					missionID = prompt('Create a new Mission ID.');
+					missionID.replace(/\W/g, '');
+				}
+				mission_id = missionID;
+				document.getElementById('key').value = mission_id;
+				document.getElementById('note').innerText = 'Share this code with your teammates.';
+				createMission(mission_id).then(function(done){
+
+				});
+			});
+			joinB.addEventListener('click', function(e){
+				var playerID = prompt('Choose a username');
+					playerID.replace(/\W/g, '');
+				while(playerID.length < 1){
+					playerID = prompt('Choose a username');
+					playerID.replace(/\W/g, '');
+				}
+				if(!mission_id){
+					var inMid = document.getElementById('key').value;
+						inMid.replace(/\W/g, '');
+					mission_id = inMid;
+				}
+				player_id = playerID;
+				window.location = 'control.html?mid=' + mission_id + '&pid=' + player_id;
+			});
+
+		</script>
+	
+	</body>
+
+</html>

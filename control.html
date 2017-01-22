@@ -3,6 +3,7 @@
 	<head>
 		<title>Mars Rover</title>
 		<!--<link rel="icon" type="img/png" href="style/favicon.png" style="width:30px;">-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" type="text/css" href="assets/reset.css">
 		<!-- <link rel="stylesheet" type="text/less" href="assets/main.less"> -->
 		<link rel="stylesheet" type="text/css" href="assets/main.css">
@@ -25,7 +26,9 @@
 		</script>
 		<style>
 
-
+			div#players {
+				margin: 10px;
+			}
 
 		</style>
 	</head>
@@ -33,10 +36,22 @@
 	<body>
 
 		<div class="container">
-			<div class="terminal">
+			<div id="terminal-mission" class="terminal">
 				Instructions Terminal.
 			</div>
+			<div class="panel">
+				<div class="module">
+					<h2>Rover Camera Feed</h2>
+					<img id="camera" src="assets/camera_final.png" alt="image feed interrupted">
+				</div>
+			</div>
+			<div id="welcome" class="panel">
+				<div id="players"></div>
+				<button id="start">Begin Mission</button>
+			</div>
 			<div id="panel-1" class="panel panel-module"></div>
+			<div id="panel-2" class="panel panel-module"></div>
+			<div id="panel-3" class="panel panel-module"></div>
 		</div>
 
 		<script type="text/javascript" src="lib/interfaces.js"></script>
@@ -45,7 +60,19 @@
 		<script type="text/javascript" src="lib/module.js"></script>
 		<script type="text/javascript">
 
-			//init();
+			function getQueryParams(qs) {
+				qs = qs.split('+').join(' ');
+				var params = {},
+					tokens,
+					re = /[?&]?([^=]+)=([^&]*)/g;
+				while (tokens = re.exec(qs)) {
+					params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+				}
+				return params;
+			}
+
+			var params = getQueryParams(document.location.search);
+			join(params.mid, params.pid);
 
 		</script>
 	
