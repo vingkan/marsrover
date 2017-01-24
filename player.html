@@ -59,7 +59,6 @@
 
 		<script type="text/javascript" src="lib/interfaces.js"></script>
 		<script type="text/javascript" src="lib/tasks.js"></script>
-		<script type="text/javascript" src="lib/reducers.js"></script>
 
 		<script type="text/javascript">
 
@@ -75,22 +74,30 @@
 			}
 
 			var params = getQueryParams(document.location.search);
-			MISSION_ID = params.mid || 'redux';
-			PLAYER_ID = params.pid || 'vinesh';
+			var MISSION_ID = params.mid || 'redux';
+			var PLAYER_ID = params.pid || 'vinesh';
+
+			var GLOBAL = {
+				WIN: 1,
+				LOSE: 2,
+				LIMIT: 10
+			}
 
 		</script>
 
-		
+		<script type="text/javascript" src="lib/reducers.js"></script>
 		<script type="text/javascript" src="lib/rover.js"></script>
 		<script type="text/javascript" src="lib/module.js"></script>
 		<script type="text/javascript" src="lib/player.js"></script>
 
 		<script type="text/javascript">
 
-			dispatch({
-				action: 'add_player',
-				pid: PLAYER_ID
-			});
+			function joinMission(){
+				dispatch({
+					action: 'add_player',
+					pid: PLAYER_ID
+				});
+			}
 
 			function startMission(){
 				dispatch({
