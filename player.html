@@ -36,6 +36,10 @@
 			<div id="terminal-mission" class="terminal">
 				<p class="typewriter">Instructions Terminal.</p>
 			</div>
+			<div id="welcome" class="panel">
+				<div id="players"></div>
+				<button id="start">Begin Mission</button>
+			</div>
 			<div id="rover" class="panel">
 				<div class="module">
 					<h2>Rover Camera Feed</h2>
@@ -43,10 +47,6 @@
 					<canvas id="obscure" width="300" height="300"></canvas>
 					<!-- <img id="camera" src="assets/camera_final.png" alt="image feed interrupted"> -->
 				</div>
-			</div>
-			<div id="welcome" class="panel">
-				<div id="players"></div>
-				<button id="start">Begin Mission</button>
 			</div>
 			<div id="again" class="panel" style="display: none;">
 				<button onclick="retry();">Retry Mission</button>
@@ -84,15 +84,13 @@
 			}
 
 		</script>
-
-		<script type="text/javascript" src="lib/reducers.js"></script>
+		
 		<script type="text/javascript" src="lib/rover.js"></script>
 		<script type="text/javascript" src="lib/module.js"></script>
+		<script type="text/javascript" src="lib/reducers.js"></script>
 		<script type="text/javascript" src="lib/player.js"></script>
-
+	
 		<script type="text/javascript">
-
-			joinMission();
 
 			function joinMission(){
 				dispatch({
@@ -107,8 +105,12 @@
 				});
 			}
 
+			joinMission();
+
+			document.querySelector('#start').addEventListener('click', startMission);
+
 		</script>
-	
+
 	</body>
 
 </html>
