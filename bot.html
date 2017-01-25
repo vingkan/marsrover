@@ -57,6 +57,7 @@
 			<div id="panel-4" class="panel panel-module"></div>
 		</div>
 
+		<script type="text/javascript" src="lib/annyang.js"></script>
 		<script type="text/javascript" src="lib/interfaces.js"></script>
 		<script type="text/javascript" src="lib/tasks.js"></script>
 
@@ -81,28 +82,15 @@
 		
 		<script type="text/javascript" src="lib/rover.js"></script>
 		<script type="text/javascript" src="lib/module.js"></script>
-		<script type="text/javascript" src="lib/utils.js"></script>
 		<script type="text/javascript" src="lib/reducers.js"></script>
-		<script type="text/javascript" src="lib/player.js"></script>
+		<script type="text/javascript" src="lib/utils.js"></script>
+		<script type="text/javascript" src="lib/player-bot.js"></script>
 	
 		<script type="text/javascript">
 			
 			joinMission();
 			document.querySelector('#start').addEventListener('click', init);
 
-		</script>
-
-		<script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
-		<script>
-			if(annyang){
-				var commands = {
-					'show tps report': function(){
-					
-					}
-				}
-				annyang.addCommands(commands);
-				annyang.start();
-			}
 		</script>
 
 	</body>
