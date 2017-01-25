@@ -99,9 +99,9 @@
 				});
 			}
 
-			function startMission(){
+			function init(){
 				dispatch({
-					action: 'start_mission'
+					action: 'setup_controls'
 				});
 				document.querySelector('#welcome').style.display = 'none';
 			}
@@ -113,7 +113,7 @@
 
 			joinMission();
 
-			document.querySelector('#start').addEventListener('click', startMission);
+			document.querySelector('#start').addEventListener('click', init);
 
 		</script>
 
