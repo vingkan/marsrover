@@ -77,12 +77,6 @@
 			var MISSION_ID = params.mid || 'redux';
 			var PLAYER_ID = params.pid || 'vinesh';
 
-			var GLOBAL = {
-				WIN: 1,
-				LOSE: 2,
-				LIMIT: 10
-			}
-
 		</script>
 		
 		<script type="text/javascript" src="lib/rover.js"></script>
@@ -103,7 +97,6 @@
 				dispatch({
 					action: 'setup_controls'
 				});
-				document.querySelector('#welcome').style.display = 'none';
 			}
 
 			function resetRef(){
