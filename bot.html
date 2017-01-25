@@ -74,8 +74,8 @@
 			}
 
 			var params = getQueryParams(document.location.search);
-			var MISSION_ID = params.mid || 'redux';
-			var PLAYER_ID = params.pid || 'vinesh';
+			var MISSION_ID = params.mid || 'bot';
+			var PLAYER_ID = params.pid || 'voicebot';
 
 		</script>
 		
@@ -86,10 +86,23 @@
 		<script type="text/javascript" src="lib/player.js"></script>
 	
 		<script type="text/javascript">
-
+			
 			joinMission();
 			document.querySelector('#start').addEventListener('click', init);
 
+		</script>
+
+		<script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+		<script>
+			if(annyang){
+				var commands = {
+					'show tps report': function(){
+					
+					}
+				}
+				annyang.addCommands(commands);
+				annyang.start();
+			}
 		</script>
 
 	</body>
