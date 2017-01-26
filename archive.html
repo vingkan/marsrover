@@ -76,21 +76,20 @@
 			var params = getQueryParams(document.location.search);
 			var MISSION_ID = params.mid || 'redux';
 			var PLAYER_ID = params.pid || 'vinesh';
-			var MISSION_PATH = 'missions/' + MISSION_ID;
+			var MISSION_PATH = 'archives/' + MISSION_ID;
 
 		</script>
 		
+		<script type="text/javascript" src="lib/main.js"></script>
 		<script type="text/javascript" src="lib/rover.js"></script>
 		<script type="text/javascript" src="lib/module.js"></script>
-		<script type="text/javascript" src="lib/main.js"></script>
 		<script type="text/javascript" src="lib/reducers.js"></script>
 		<script type="text/javascript" src="lib/utils.js"></script>
-		<script type="text/javascript" src="lib/player.js"></script>
+		<script type="text/javascript" src="lib/archive.js"></script>
 	
 		<script type="text/javascript">
 
-			joinMission();
-			document.querySelector('#start').addEventListener('click', init);
+			//init();
 
 		</script>
 
