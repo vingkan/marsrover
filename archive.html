@@ -77,7 +77,8 @@
 	
 		<script type="text/javascript">
 
-			var archive = {};
+			var ARCHIVE = {};
+			var DETAILS = {};
 
 			missionRef.once('value', function(snapshot){
 				var missionDiv = document.querySelector('#missions');
@@ -86,7 +87,11 @@
 					var mission = archivedMissions[i];
 					var state = {};
 					state.key = i;
+					DETAILS[i] = {
+						events: []
+					}
 					var actions = Object.keys(mission).map((key) => {
+						mission[key].mkey = i;
 						return mission[key];
 					}).sort((a, b) => {
 						return a.timestamp - b.timestamp;
@@ -94,7 +99,8 @@
 					for(var a = 0; a < actions.length; a++){
 						state = evaluateAction(state, actions[a]);
 					}
-					archive[i] = state;
+					ARCHIVE[i] = state;
+					console.log(DETAILS[i].events);
 					var html = getArchiveHTML(state);
 					missionDiv.innerHTML += html;
 				}
