@@ -74,7 +74,7 @@
 			}
 
 			var params = getQueryParams(document.location.search);
-			var MISSION_ID = params.mid || 'redux';
+			var MISSION_ID = params.mid || 'test';
 			var PLAYER_ID = params.pid || 'vinesh';
 			var MISSION_PATH = 'archives/' + MISSION_ID;
 
@@ -89,7 +89,40 @@
 	
 		<script type="text/javascript">
 
-			//init();
+			var archive = {};
+
+			missionRef.once('value', function(snapshot){
+				var archivedMissions = snapshot.val();
+				for(var i in archivedMissions){
+					var mission = archivedMissions[i];
+					var state = {};
+					var actions = Object.keys(mission).map((key) => {
+						return mission[key];
+					}).sort((a, b) => {
+						return a.timestamp - b.timestamp;
+					});
+					for(var a = 0; a < actions.length; a++){
+						state = evaluateAction(state, actions[a]);
+					}
+					archive[i] = state;
+				}
+
+			});
+
+
+			function evaluateAction(state, data){
+					var reducer = REDUCERS[data.action];
+				if(reducer){
+					state = reducer(clone(state), data);
+				}
+				var renderer = RENDERERS[data.action];
+				if(renderer){
+					renderer(state, data);
+				}
+				return state;
+			}
+
+			//main();
 
 		</script>
 
