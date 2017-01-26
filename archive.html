@@ -34,27 +34,14 @@
 
 		<div class="container-control">
 			<div id="terminal-mission" class="terminal">
-				<p class="typewriter">Instructions Terminal.</p>
+				<p class="typewriter">Mission Archives.</p>
 			</div>
-			<div id="welcome" class="panel">
-				<div id="players"></div>
-				<button id="start">Begin Mission</button>
-			</div>
-			<div id="rover" class="panel">
+			<div class="panel">
 				<div class="module">
-					<h2>Rover Camera Feed</h2>
-					<div id="camera"></div>
-					<canvas id="obscure" width="300" height="300"></canvas>
-					<!-- <img id="camera" src="assets/camera_final.png" alt="image feed interrupted"> -->
+					<h2 id="mid-heading"></h2>
+					<div id="missions"></div>
 				</div>
 			</div>
-			<div id="again" class="panel" style="display: none;">
-				<button onclick="retry();">Retry Mission</button>
-			</div>
-			<div id="panel-1" class="panel panel-module"></div>
-			<div id="panel-2" class="panel panel-module"></div>
-			<div id="panel-3" class="panel panel-module"></div>
-			<div id="panel-4" class="panel panel-module"></div>
 		</div>
 
 		<script type="text/javascript" src="lib/interfaces.js"></script>
@@ -74,24 +61,70 @@
 			}
 
 			var params = getQueryParams(document.location.search);
-			var MISSION_ID = params.mid || 'redux';
+			var MISSION_ID = params.mid || 'test';
 			var PLAYER_ID = params.pid || 'vinesh';
-			var MISSION_PATH = 'missions/' + MISSION_ID;
+			var MISSION_PATH = 'archives/' + MISSION_ID;
+
+			document.querySelector('#mid-heading').innerText = MISSION_ID;
 
 		</script>
 		
-		<script type="text/javascript" src="lib/rover.js"></script>
-		<script type="text/javascript" src="lib/module.js"></script>
 		<script type="text/javascript" src="lib/main.js"></script>
+		<script type="text/javascript" src="lib/module.js"></script>
 		<script type="text/javascript" src="lib/reducers.js"></script>
 		<script type="text/javascript" src="lib/utils.js"></script>
-		<script type="text/javascript" src="lib/player.js"></script>
+		<script type="text/javascript" src="lib/archive.js"></script>
 	
 		<script type="text/javascript">
 
-			main();
-			joinMission();
-			document.querySelector('#start').addEventListener('click', init);
+			var ARCHIVE = {};
+			var DETAILS = {};
+
+			missionRef.once('value', function(snapshot){
+				var missionDiv = document.querySelector('#missions');
+				var archivedMissions = snapshot.val();
+				for(var i in archivedMissions){
+					var mission = archivedMissions[i];
+					var state = {};
+					state.key = i;
+					DETAILS[i] = {
+						events: []
+					}
+					var actions = Object.keys(mission).map((key) => {
+						mission[key].mkey = i;
+						return mission[key];
+					}).sort((a, b) => {
+						return a.timestamp - b.timestamp;
+					});
+					for(var a = 0; a < actions.length; a++){
+						state = evaluateAction(state, actions[a]);
+					}
+					ARCHIVE[i] = state;
+					console.log(DETAILS[i].events);
+					var html = getArchiveHTML(state);
+					missionDiv.innerHTML += html;
+				}
+
+			});
+
+			function evaluateAction(state, data){
+					var reducer = REDUCERS[data.action];
+				if(reducer){
+					state = reducer(clone(state), data);
+				}
+				var renderer = RENDERERS[data.action];
+				if(renderer){
+					renderer(state, data);
+				}
+				return state;
+			}
+
+			function getArchiveHTML(state){
+				var html = '';
+				var result = state.success ? 'Success' : 'Failure';
+				html += '[' + result + '] ' + state.key + '<br>';
+				return html;
+			}
 
 		</script>
 
