@@ -82,9 +82,11 @@
 				itfSelector.innerHTML += opt;
 			}
 			var tskSelector = document.getElementById('task-id');
-			for(var t in TASKS){
-				var tsk = TASKS[t];
-				var opt = '<option value="' + t + '">' + tsk.instruction + '</option>';
+			var tkeys = Object.keys(TASKS);
+			var tkeys = tkeys.sort();
+			for(var t = 0; t < tkeys.length; t++){
+				var tsk = TASKS[tkeys[t]];
+				var opt = '<option value="' + tkeys[t] + '">' + tsk.instruction + '</option>';
 				tskSelector.innerHTML += opt;
 			}
 			var testSelector = document.getElementById('test-selector');
