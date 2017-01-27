@@ -96,8 +96,17 @@
 					}).sort((a, b) => {
 						return a.timestamp - b.timestamp;
 					});
+					var evaluate = false;
 					for(var a = 0; a < actions.length; a++){
-						state = evaluateAction(state, actions[a]);
+						if(actions[a].action === 'add_player'){
+							evaluate = true;
+						}
+						if(evaluate){
+							state = evaluateAction(state, actions[a]);
+						}
+						if(actions[a].action === 'finish_mission'){
+							evaluate = false;
+						}
 					}
 					ARCHIVE[i] = state;
 					console.log(DETAILS[i].events);
@@ -108,7 +117,7 @@
 			});
 
 			function evaluateAction(state, data){
-					var reducer = REDUCERS[data.action];
+				var reducer = REDUCERS[data.action];
 				if(reducer){
 					state = reducer(clone(state), data);
 				}
