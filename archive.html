@@ -33,7 +33,7 @@
 	<body>
 
 		<div id="terminal-mission" class="terminal">
-			<p class="typewriter">Mission Archives. for whatever you want in your life when I have a big headache because it would be a lot of fun. im a neck im a neck im a neck</p>
+			<p class="typewriter">Mission Archives.</p>
 		</div>
 		<div class="container-control">
 			<div class="panel">
@@ -41,6 +41,10 @@
 					<h2 id="mid-heading"></h2>
 					<div id="missions"></div>
 				</div>
+			</div>
+			<div class="panel">
+				<h2>Mission Logs</h2>
+				<div id="logs"></div>
 			</div>
 		</div>
 
@@ -109,11 +113,10 @@
 						}
 					}
 					ARCHIVE[i] = state;
-					console.log(DETAILS[i].events);
 					var html = getArchiveHTML(state);
 					missionDiv.innerHTML += html;
 				}
-
+					renderArchive(i);
 			});
 
 			function evaluateAction(state, data){
@@ -131,7 +134,7 @@
 			function getArchiveHTML(state){
 				var html = '';
 				var result = state.success ? 'Success' : 'Failure';
-				html += '[' + result + '] ' + state.key + '<br>';
+				html += '<div onclick="renderArchive(&quot;' + state.key + '&quot;);">[' + result + '] ' + state.key + '</div>';
 				return html;
 			}
 
