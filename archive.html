@@ -39,7 +39,7 @@
 			<div class="panel">
 				<div class="module">
 					<h2 id="mid-heading"></h2>
-					<div id="missions"></div>
+					<ul id="missions"></ul>
 				</div>
 			</div>
 			<div class="panel">
@@ -134,7 +134,7 @@
 			function getArchiveHTML(state){
 				var html = '';
 				var result = state.success ? 'Success' : 'Failure';
-				html += '<div onclick="renderArchive(&quot;' + state.key + '&quot;);">[' + result + '] ' + state.key + '</div>';
+				html += '<li onclick="renderArchive(&quot;' + state.key + '&quot;);">[' + result + '] ' + state.key + '</li>';
 				return html;
 			}
 
