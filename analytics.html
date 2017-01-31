@@ -68,11 +68,11 @@
 										failed: 0
 									}
 								}
-								if(players[data.sender]){
-									players[data.sender].push(node.tid);
+								if(players[node.sender]){
+									players[node.sender].push(node.tid);
 								}
 								else{
-									players[data.sender] = [node.tid];
+									players[node.sender] = [node.tid];
 								}
 							}
 							if(node.action === 'fail_task'){
