@@ -19,7 +19,7 @@ html, body {
 	padding: 10px;
 }
 
-h1, h2, p {
+h1, h2, h3, p, ul {
 	margin: 10px;
 }
 
@@ -39,10 +39,24 @@ h2 {
 	text-align: center;
 }
 
+h3 {
+	font-size: 20px;
+	line-height: 25px;
+	text-align: left;
+}
+
 p {
 	font-size: 15px;
 	line-height: 20px;
 	text-align: left;	
+}
+
+ul li {
+	margin: 5px auto;
+}
+
+span.log-time {
+	color: @Rust;
 }
 
 div.center {
@@ -72,11 +86,12 @@ div.terminal {
 	background: @Charcoal;
 	color: white;
 	opacity: 1.0;
-	position: fixed;
+	/*position: fixed;
 	top: 0;
-	left: 0;
-	width: 100%;
-	border: 10px solid yellow;
+	left: 0;*/
+	display: block;
+	//width: 100%;
+	//border: 10px solid red;
 
 	transition: 0.5s opacity;
 	-webkit-transition: 0.5s opacity;
@@ -87,22 +102,25 @@ div.terminal {
 
 }
 
+div.container {
+	
+}
+
 div.container-control {
 	padding: 10px;
-	padding-top: 67.5px;
+	//padding-top: 67.5px;
 }
 
 // Typewriter Animations
 // Source; http://stackoverflow.com/questions/32626278/css3-typewriter-effect
 
 .typewriter{
-	color: white; 
+	//color: white; 
 	font-size: 20px;
-	margin: 10px 0 0 10px;
-	white-space: nowrap;
-	overflow: hidden;
+	//white-space: wrap;
+	//overflow: hidden;
 	//animation: type 4s steps(60, end);
-	animation: type2 4s steps(30, end);
+	//animation: type2 4s steps(30, end);
 	//animation: type3 6s steps(60, end);
 }
 

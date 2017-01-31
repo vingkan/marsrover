@@ -23,8 +23,8 @@
 		</script>
 		<style>
 
-			div#players {
-				margin: 10px;
+			div#logs-menu {
+				width: 450px;
 			}
 
 		</style>
@@ -32,18 +32,23 @@
 
 	<body>
 
+		<div id="terminal-mission" class="terminal">
+			<p class="typewriter">Mission Archives.</p>
+		</div>
 		<div class="container-control">
-			<div id="terminal-mission" class="terminal">
-				<p class="typewriter">Mission Archives.</p>
+			<div class="panel">
+				<div id="logs-menu" class="module">
+					<h2 id="mid-heading"></h2>
+					<ul id="missions"></ul>
+				</div>
 			</div>
 			<div class="panel">
-				<div class="module">
-					<h2 id="mid-heading"></h2>
-					<div id="missions"></div>
-				</div>
+				<h2>Mission Logs</h2>
+				<div id="logs"></div>
 			</div>
 		</div>
 
+		<script type="text/javascript" src="lib/moment.min.js"></script>
 		<script type="text/javascript" src="lib/interfaces.js"></script>
 		<script type="text/javascript" src="lib/tasks.js"></script>
 
@@ -109,11 +114,10 @@
 						}
 					}
 					ARCHIVE[i] = state;
-					console.log(DETAILS[i].events);
 					var html = getArchiveHTML(state);
 					missionDiv.innerHTML += html;
 				}
-
+					renderArchive(i);
 			});
 
 			function evaluateAction(state, data){
@@ -131,7 +135,7 @@
 			function getArchiveHTML(state){
 				var html = '';
 				var result = state.success ? 'Success' : 'Failure';
-				html += '[' + result + '] ' + state.key + '<br>';
+				html += '<li><button onclick="renderArchive(&quot;' + state.key + '&quot;);">View Logs</button> Mission on ' + moment(DETAILS[state.key].startTime).format('M/D h:mm A') + ' [' + result + ']</li>';
 				return html;
 			}
 
