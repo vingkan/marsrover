@@ -23,8 +23,8 @@
 		</script>
 		<style>
 
-			div#players {
-				margin: 10px;
+			div#logs-menu {
+				width: 450px;
 			}
 
 		</style>
@@ -37,7 +37,7 @@
 		</div>
 		<div class="container-control">
 			<div class="panel">
-				<div class="module">
+				<div id="logs-menu" class="module">
 					<h2 id="mid-heading"></h2>
 					<ul id="missions"></ul>
 				</div>
@@ -48,6 +48,7 @@
 			</div>
 		</div>
 
+		<script type="text/javascript" src="lib/moment.min.js"></script>
 		<script type="text/javascript" src="lib/interfaces.js"></script>
 		<script type="text/javascript" src="lib/tasks.js"></script>
 
@@ -134,7 +135,7 @@
 			function getArchiveHTML(state){
 				var html = '';
 				var result = state.success ? 'Success' : 'Failure';
-				html += '<li onclick="renderArchive(&quot;' + state.key + '&quot;);">[' + result + '] ' + state.key + '</li>';
+				html += '<li><button onclick="renderArchive(&quot;' + state.key + '&quot;);">View Logs</button> Mission on ' + moment(DETAILS[state.key].startTime).format('M/D h:mm A') + ' [' + result + ']</li>';
 				return html;
 			}
 
