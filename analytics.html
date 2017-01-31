@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Mars Rover</title>
+		<!--<link rel="icon" type="img/png" href="style/favicon.png" style="width:30px;">-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="assets/reset.css">
+		<!-- <link rel="stylesheet" type="text/less" href="assets/main.less"> -->
+		<link rel="stylesheet" type="text/css" href="assets/main.css">
+		<script type="text/javascript" src="lib/promise.min.js"></script>
+		<link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet">
+		<script src="https://www.gstatic.com/firebasejs/3.6.6/firebase.js"></script>
+		<script>
+			// Initialize Firebase
+			var config = {
+				apiKey: "AIzaSyAviWCsQeaHd5YhIMEbXohql3eR6MC1tuA",
+				authDomain: "marsteam-6522c.firebaseapp.com",
+				databaseURL: "https://marsteam-6522c.firebaseio.com",
+				storageBucket: "marsteam-6522c.appspot.com",
+				messagingSenderId: "487026784695"
+			};
+			firebase.initializeApp(config);
+		</script>
+		<style>
+
+
+
+		</style>
+	</head>
+
+	<body>
+
+		<div id="terminal-mission" class="terminal">
+			<p class="typewriter">Mission Analytics.</p>
+		</div>
+		<div class="container-control">
+			<div class="panel">
+				<h2>Task Completion Rates</h2>
+				<ul id="task-rates"></ul>
+			</div>
+			<div class="panel">
+				<h2>Player Leaderboard</h2>
+				<ul id="player-leaderboard"></ul>
+			</div>
+		</div>
+
+		<script type="text/javascript" src="lib/interfaces.js"></script>
+		<script type="text/javascript" src="lib/tasks.js"></script>
+
+		<script type="text/javascript">
+
+			var db = firebase.database();
+			db.ref('archives').on('value', function(snapshot){
+				var taskRates = {};
+				var players = {};
+				var val = snapshot.val();
+				for(var mid in val){
+					for(var mkey in val[mid]){
+						for(var a in val[mid][mkey]){
+							var node = val[mid][mkey][a];
+							if(node.action === 'complete_task'){
+								if(taskRates[node.tid]){
+									taskRates[node.tid].completed++;
+								}
+								else{
+									taskRates[node.tid] = {
+										completed: 1,
+										failed: 0
+									}
+								}
+								if(players[node.sender]){
+									players[node.sender].push(node.tid);
+								}
+								else{
+									players[node.sender] = [node.tid];
+								}
+							}
+							if(node.action === 'fail_task'){
+								if(taskRates[node.tid]){
+									taskRates[node.tid].failed++;
+								}
+								else{
+									taskRates[node.tid] = {
+										completed: 0,
+										failed: 1
+									}
+								}
+							}
+						}
+					}
+				}
+				var tStats = Object.keys(taskRates).map((tid) => {
+					taskRates[tid].tid = tid;
+					taskRates[tid].attempts = taskRates[tid].completed + taskRates[tid].failed;
+					taskRates[tid].completionRate = taskRates[tid].completed / taskRates[tid].attempts;
+					return taskRates[tid];
+				}).sort((a, b) => {
+					return a.completionRate - b.completionRate;
+				});
+				var lbd = document.getElementById('task-rates');
+				lbd.innerHTML = '';
+				for(var t = 0; t < tStats.length; t++){
+					var stat = tStats[t];
+					var task = TASKS[stat.tid];
+					lbd.innerHTML += '<li>' + (stat.completionRate * 100).toFixed(1) + '% - ' + task.instruction + '</li>';
+				}
+				var pStats = Object.keys(players).map((pid) => {
+					return {
+						pid: pid,
+						tasks: players[pid]
+					};
+				}).sort((a, b) => {
+					return b.tasks.length - a.tasks.length;
+				});
+				var pbd = document.getElementById('player-leaderboard');
+				pbd.innerHTML = '';
+			});
+
+		</script>
+
+	</body>
+
+</html>
