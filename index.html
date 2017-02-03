@@ -180,13 +180,13 @@
 							var last = Object.keys(events).map(key => events[key]).sort((a, b) => { return b.timestamp - a.timestamp })[0];
 							var diff = Date.now() - last.timestamp;
 							if(diff > EXPIRED){
+								db.ref('join/' + mid).remove();
 								db.ref('missions/' + mid).remove().then((done) => {
 									free = true;
 									resolve(free);
 								});
 							}
 							else{
-								console.log(diff)
 								free = false;
 								resolve(free);
 							}
