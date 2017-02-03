@@ -10,6 +10,7 @@
 		<script type="text/javascript" src="lib/promise.min.js"></script>
 		<link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet">
 		<script src="https://www.gstatic.com/firebasejs/3.6.6/firebase.js"></script>
+		<script src="lib/promise.min.js"></script>
 		<script>
 			// Initialize Firebase
 			var config = {
@@ -48,6 +49,10 @@
 				text-align: center;
 			}
 
+			p#form-errors {
+				color: red;
+			}
+
 		</style>
 	</head>
 
@@ -62,10 +67,17 @@
 			<div id="start" class="panel">
 				<h2>Start Your Team Mission</h2>
 				<p id="note">For collaboration, for science.</p>
-				<div class="center">
+				<div id="form-join" class="center">
+					<p id="form-errors"></p>
 					<input id="key" type="text" placeholder="Mission ID">
+					<input id="pid" type="text" placeholder="Player Name">
 					<button id="join">Join Mission</button>
-					<button id="new">New Mission</button>
+				</div>
+				<div id="team-container" class="center hide">
+					<h2>Mission ID: <span id="team-mid"></span></h2>
+					<div id="team-space"></div>
+					<button id="invite">Invite Teammates</button>
+					<button id="enter">Enter Mission Control</button>
 				</div>
 			</div>
 			<br>
@@ -75,39 +87,159 @@
 		
 		<script type="text/javascript">
 
+			var db = firebase.database();
 			var mission_id = false;
 			var player_id = false;
 
-			var newB = document.getElementById('new');
-			var joinB = document.getElementById('join');
-			newB.addEventListener('click', function(e){
-				var missionID = prompt('Create a new Mission ID.');
-					missionID.replace(/\W/g, '');
-				while(missionID.length < 1){
-					missionID = prompt('Create a new Mission ID.');
-					missionID.replace(/\W/g, '');
+			function cleanse(str){
+				if(str){
+					return str.replace(/\W/g, '');
 				}
-				mission_id = missionID;
-				document.getElementById('key').value = mission_id;
-				document.getElementById('note').innerText = 'Share this code with your teammates.';
-				/*createMission(mission_id).then(function(done){
+				else{
+					return false;
+				}
+			}
 
-				});*/
-			});
+			function getQueryParams(qs) {
+				qs = qs.split('+').join(' ');
+				var params = {},
+					tokens,
+					re = /[?&]?([^=]+)=([^&]*)/g;
+				while (tokens = re.exec(qs)) {
+					params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+				}
+				return params;
+			}
+
+			var params = getQueryParams(document.location.search);
+			mission_id = cleanse(params.mid) || false;
+			player_id = cleanse(params.pid) || false;
+
+			var midInput = document.getElementById('key');
+			var pidInput = document.getElementById('pid');
+			var joinForm = document.getElementById('form-join');
+			var errorBox = document.getElementById('form-errors');
+			var teamContainer = document.getElementById('team-container');
+			var teamSpace = document.getElementById('team-space');
+			var teamMid = document.getElementById('team-mid');
+
+			if(mission_id){
+				midInput.value = mission_id;
+			}
+			if(player_id){
+				pidInput.value = player_id;
+			}
+
+			function removeNode(key){
+				db.ref('join/' + mission_id + '/' + key).remove();
+			}
+
+			function initTeamFormation(){
+				var teamRef = db.ref('join/' + mission_id);
+				teamRef.push({
+					id: player_id
+				});
+				teamRef.on('value', function(snapshot){
+					var team = snapshot.val();
+					teamMid.innerText = mission_id;
+					teamSpace.innerHTML = '';
+					var count = 0;
+					var joined = false;
+					for(var i in team){
+						var node = team[i];
+						var player = node.id;
+						if(node.start){
+							window.location = 'player.html?mid=' + mission_id + '&pid=' + player_id;
+							break;
+						}
+						else{
+							if(player === player_id){
+								joined = true;
+							}
+							var html = '<div>' + player + ' joined the mission. <button onclick="removeNode(&quot;' + i + '&quot;);">Remove</button></div>';
+							teamSpace.innerHTML += html;
+							count++;
+						}
+					}
+					if(count < 1 || !joined){
+						joinForm.style.display = 'block';
+						teamContainer.style.display = 'none';
+					}
+					else{
+						joinForm.style.display = 'none';
+						teamContainer.style.display = 'block';
+					}
+				});
+			}
+
+			var EXPIRED = 1000 * 60 * 10; // 10 minutes in ms
+
+			function checkNode(mid){
+				return new Promise((resolve, reject) => {
+					var free = false;
+					db.ref('missions/' + mid).once('value', function(snapshot){
+						if(snapshot.exists()){
+							var events = snapshot.val();
+							var last = Object.keys(events).map(key => events[key]).sort((a, b) => { return b.timestamp - a.timestamp })[0];
+							var diff = Date.now() - last.timestamp;
+							if(diff > EXPIRED){
+								db.ref('join/' + mid).remove();
+								db.ref('missions/' + mid).remove().then((done) => {
+									free = true;
+									resolve(free);
+								});
+							}
+							else{
+								free = false;
+								resolve(free);
+							}
+						}
+						else{
+							free = true;
+							resolve(free);
+						}
+					});
+				});
+			}
+
+			var joinB = document.getElementById('join');
 			joinB.addEventListener('click', function(e){
-				var playerID = prompt('Choose a username');
-					playerID.replace(/\W/g, '');
-				while(playerID.length < 1){
-					playerID = prompt('Choose a username');
-					playerID.replace(/\W/g, '');
+				if(cleanse(midInput.value) && cleanse(pidInput.value)){
+					mission_id = cleanse(midInput.value);
+					player_id = cleanse(pidInput.value);
+					checkNode(mission_id).then(function(free){
+						if(free){
+							initTeamFormation();
+						}
+						else{
+							errorBox.innerText = 'Mission id currently in use.';
+						}
+					});
 				}
-				if(!mission_id){
-					var inMid = document.getElementById('key').value;
-						inMid.replace(/\W/g, '');
-					mission_id = inMid;
+				else if(!midInput.value){
+					errorBox.innerText = 'Enter a mission id.';
 				}
-				player_id = playerID;
-				window.location = 'player.html?mid=' + mission_id + '&pid=' + player_id;
+				else{
+					errorBox.innerText = 'Enter a player name.';
+				}
+			});
+
+
+			var enterB = document.getElementById('enter');
+			enterB.addEventListener('click', function(e){
+				db.ref('join/' + mission_id).push({start: true});
+			});
+
+			var inviteB = document.getElementById('invite');
+			inviteB.addEventListener('click', function(e){
+				var link = false;
+				if(document.location.search.indexOf('mid') < 0){
+					link = window.location + '?mid=' + mission_id;
+				}
+				else{
+					link = window.location;
+				}
+				prompt('Copy and share this link!', link);
 			});
 
 		</script>
