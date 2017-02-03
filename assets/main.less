@@ -187,6 +187,7 @@ div.arcgauge {
 	
 	display: block;
 	margin: 30px auto;
+	background: transparent;
 
 	.rs-range-color {
 		background-color: @DarkScreen;
@@ -194,6 +195,10 @@ div.arcgauge {
 
 	.rs-path-color {
 		background-color: @DarkScreen;
+	}
+
+	.rs-range-color {
+		background-color: lighten(@Rust, 15%);
 	}
 
 	.rs-handle {
@@ -209,7 +214,10 @@ div.arcgauge {
 	}
 
 	.rs-tooltip-text {
-		display: none;
+		text-align: center;
+		font-size: 22px;
+		line-height: 15px;
+		.MainFont();
 	}
 
 	.rs-seperator {
