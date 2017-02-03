@@ -74,8 +74,9 @@
 					<button id="join">Join Mission</button>
 				</div>
 				<div id="team-container" class="center hide">
-					<h2>Mission: <span id="team-mid">test</span></h2>
+					<h2>Mission ID: <span id="team-mid"></span></h2>
 					<div id="team-space"></div>
+					<button id="invite">Invite Teammates</button>
 					<button id="enter">Enter Mission Control</button>
 				</div>
 			</div>
@@ -120,6 +121,7 @@
 			var errorBox = document.getElementById('form-errors');
 			var teamContainer = document.getElementById('team-container');
 			var teamSpace = document.getElementById('team-space');
+			var teamMid = document.getElementById('team-mid');
 
 			if(mission_id){
 				midInput.value = mission_id;
@@ -139,6 +141,7 @@
 				});
 				teamRef.on('value', function(snapshot){
 					var team = snapshot.val();
+					teamMid.innerText = mission_id;
 					teamSpace.innerHTML = '';
 					var count = 0;
 					var joined = false;
@@ -225,6 +228,18 @@
 			var enterB = document.getElementById('enter');
 			enterB.addEventListener('click', function(e){
 				db.ref('join/' + mission_id).push({start: true});
+			});
+
+			var inviteB = document.getElementById('invite');
+			inviteB.addEventListener('click', function(e){
+				var link = false;
+				if(document.location.search.indexOf('mid') < 0){
+					link = window.location + '?mid=' + mission_id;
+				}
+				else{
+					link = window.location;
+				}
+				prompt('Copy and share this link!', link);
 			});
 
 		</script>
