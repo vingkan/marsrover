@@ -7,6 +7,9 @@
 		<link rel="stylesheet" type="text/css" href="assets/reset.css">
 		<!-- <link rel="stylesheet" type="text/less" href="assets/main.less"> -->
 		<link rel="stylesheet" type="text/css" href="assets/main.css">
+		<link rel="stylesheet" type="text/css" href="assets/roundslider.min.css">
+		<script type="text/javascript" src="lib/jquery-3.1.1.min.js"></script>
+		<script type="text/javascript" src="assets/roundslider.min.js"></script>
 		<script type="text/javascript" src="lib/promise.min.js"></script>
 		<link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet">
 		<script src="https://www.gstatic.com/firebasejs/3.6.6/firebase.js"></script>
@@ -35,9 +38,6 @@
 		</div>
 		<div class="container-control">
 			<div class="panel">
-				<select id="interface-id">
-					<option>Interface</option>
-				</select>
 				<select id="task-id">
 					<option>Task</option>
 				</select>
@@ -51,8 +51,8 @@
 		<script type="text/javascript" src="lib/module.js"></script>
 		<script type="text/javascript">
 
-			var interface_id = 'itf0018';
-			var task_id = 'tsk0052';
+			var interface_id = 'rsi0001';
+			var task_id = 'rst0001';
 			startTest(interface_id, task_id);
 
 			function startTest(interfaceID, taskID){
@@ -75,12 +75,6 @@
 				}
 			}
 
-			var itfSelector = document.getElementById('interface-id');
-			for(var i in INTERFACES){
-				var itf = INTERFACES[i];
-				var opt = '<option value="' + i + '">' + itf.name + '</option>';
-				itfSelector.innerHTML += opt;
-			}
 			var tskSelector = document.getElementById('task-id');
 			var tkeys = Object.keys(TASKS);
 			var tkeys = tkeys.sort();
@@ -91,7 +85,8 @@
 			}
 			var testSelector = document.getElementById('test-selector');
 			testSelector.addEventListener('click', function(e){
-				startTest(itfSelector.value, tskSelector.value);
+				var task = TASKS[tskSelector.value]
+				startTest(task.interface, tskSelector.value);
 			});
 
 		</script>
