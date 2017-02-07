@@ -227,6 +227,22 @@ div.arcgauge {
 
 }
 
+div.numberpad {
+
+	button {
+		background: transparent;
+		color: white;
+		border: 2px solid white;
+		width: 40px;
+	}
+
+	button[disabled=disabled], button:disabled {
+		color: @DarkScreen;
+		border-color: @DarkScreen;
+	}
+
+}
+
 input {
 	.MainFont();
 	.BoxModel();
