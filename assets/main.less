@@ -106,6 +106,16 @@ div.terminal {
 		margin: 0;
 	}
 
+	div#terminal-ticker {
+		position: absolute;
+		left: 0;
+		top: 0;
+		border-bottom: 5px solid @Rust;
+		width: 100%;
+		transition: 0.5s width;
+		-webkit-transition: 0.5s width;
+	}
+
 }
 
 div.container {
@@ -261,7 +271,7 @@ button {
 	border: none;
 	outline: none;
 	color: white;
-	&:hover{
+	&:hover {
 		cursor: pointer;
 		opacity: 0.75;
 	}
