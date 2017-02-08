@@ -33,8 +33,9 @@
 
 	<body>
 
-		<div id="terminal-test" class="terminal">
-			Testing Terminal.
+		<div id="terminal-mission" class="terminal">
+			<div id="terminal-text">Testing Terminal.</div>
+			<div id="terminal-ticker"></div>
 		</div>
 		<div class="container-control">
 			<div class="panel">
@@ -46,6 +47,26 @@
 			<div id="panel-test" class="panel panel-module"></div>
 		</div>
 
+		<script type="text/javascript">
+
+			var STATE = {
+				playing: true,
+				score: {
+					completed: []
+				}
+			}
+
+			var GLOBAL = {
+				WIN: 0,
+				LOSE: 0,
+				LIMIT: 12
+			}
+			
+			var dispatch = function(){};
+
+		</script>
+
+		<script type="text/javascript" src="lib/utils.js"></script>
 		<script type="text/javascript" src="lib/interfaces.js"></script>
 		<script type="text/javascript" src="lib/tasks.js"></script>
 		<script type="text/javascript" src="lib/module.js"></script>
@@ -53,11 +74,12 @@
 
 			/*var interface_id = 'rsi0002';
 			var task_id = 'rst0003';
-			startTest(interface_id, task_id);
-*/
+			startTest(interface_id, task_id);*/
+
 			function startTest(interfaceID, taskID){
 				var terminal = document.getElementById('terminal-test');
 				var task = TASKS[taskID];
+				STATE.playing = true;
 				if(task.interface === interfaceID){
 					var setup = ControlModule('panel-test', interfaceID);
 					setup.then(function(module){
@@ -65,9 +87,16 @@
 						module.task = task;
 						module.attempt = function(value){
 							var success = this.task.validate(value);
+							if(success){
+								STATE.score.completed.push(taskID);
+							}
+							Terminal.showFeedback(success);
+							showPanelFeedback('panel-test', success);
+							STATE.playing = false;
 							console.log(success ? 'Success!' : 'Failure.');
 						}
-						terminal.innerText = task.instruction;
+						Terminal.print(task.instruction);
+						Terminal.startTimer(task.id);
 					});					
 				}
 				else{

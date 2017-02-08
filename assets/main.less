@@ -106,6 +106,16 @@ div.terminal {
 		margin: 0;
 	}
 
+	div#terminal-ticker {
+		position: absolute;
+		left: 0;
+		top: 0;
+		border-bottom: 5px solid @Rust;
+		width: 100%;
+		transition: 0.5s width;
+		-webkit-transition: 0.5s width;
+	}
+
 }
 
 div.container {
@@ -118,14 +128,15 @@ div.container-control {
 }
 
 // Typewriter Animations
-// Source; http://stackoverflow.com/questions/32626278/css3-typewriter-effect
+// Source: http://stackoverflow.com/questions/32626278/css3-typewriter-effect
 
 .typewriter{
 	//color: white; 
 	font-size: 20px;
-	//white-space: wrap;
-	//overflow: hidden;
-	//animation: type 4s steps(60, end);
+	/*white-space: nowrap;
+	overflow: hidden;
+	width: 100vw;
+	animation: type 4s steps(60, end);*/
 	//animation: type2 4s steps(30, end);
 	//animation: type3 6s steps(60, end);
 }
@@ -168,8 +179,8 @@ div.container-control {
 }
 
 div#start{
-	border-top: 20px solid white;
-	border-bottom: 20px solid white;
+	padding-top: 20px;
+	padding-bottom: 20px;
 }
 
 div.module {
@@ -227,6 +238,22 @@ div.arcgauge {
 
 }
 
+div.numberpad {
+
+	button {
+		background: transparent;
+		color: white;
+		border: 2px solid white;
+		width: 40px;
+	}
+
+	button[disabled=disabled], button:disabled {
+		color: @DarkScreen;
+		border-color: @DarkScreen;
+	}
+
+}
+
 input {
 	.MainFont();
 	.BoxModel();
@@ -234,6 +261,7 @@ input {
 	outline: none;
 	font-size: 15px;
 	line-height: 20px;
+	width: 230px;
 }
 
 button {
@@ -245,7 +273,7 @@ button {
 	border: none;
 	outline: none;
 	color: white;
-	&:hover{
+	&:hover {
 		cursor: pointer;
 		opacity: 0.75;
 	}
