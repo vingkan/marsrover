@@ -34,7 +34,8 @@
 	<body>
 
 		<div id="terminal-mission" class="terminal">
-			Testing Terminal.
+			<div id="terminal-text">Testing Terminal.</div>
+			<div id="terminal-ticker"></div>
 		</div>
 		<div class="container-control">
 			<div class="panel">
@@ -51,7 +52,7 @@
 			var STATE = {
 				playing: true,
 				score: {
-					completed: ['testing']
+					completed: []
 				}
 			}
 
@@ -86,6 +87,9 @@
 						module.task = task;
 						module.attempt = function(value){
 							var success = this.task.validate(value);
+							if(success){
+								STATE.score.completed.push(taskID);
+							}
 							Terminal.showFeedback(success);
 							showPanelFeedback('panel-test', success);
 							STATE.playing = false;
