@@ -33,7 +33,7 @@
 
 	<body>
 
-		<div id="terminal-test" class="terminal">
+		<div id="terminal-mission" class="terminal">
 			Testing Terminal.
 		</div>
 		<div class="container-control">
@@ -46,6 +46,23 @@
 			<div id="panel-test" class="panel panel-module"></div>
 		</div>
 
+		<script type="text/javascript">
+
+			var STATE = {
+				playing: true
+			}
+
+			var GLOBAL = {
+				WIN: 7,
+				LOSE: 5,
+				LIMIT: 13
+			}
+			
+			var dispatch = function(){};
+
+		</script>
+
+		<script type="text/javascript" src="lib/utils.js"></script>
 		<script type="text/javascript" src="lib/interfaces.js"></script>
 		<script type="text/javascript" src="lib/tasks.js"></script>
 		<script type="text/javascript" src="lib/module.js"></script>
@@ -53,8 +70,8 @@
 
 			/*var interface_id = 'rsi0002';
 			var task_id = 'rst0003';
-			startTest(interface_id, task_id);
-*/
+			startTest(interface_id, task_id);*/
+
 			function startTest(interfaceID, taskID){
 				var terminal = document.getElementById('terminal-test');
 				var task = TASKS[taskID];
@@ -65,9 +82,12 @@
 						module.task = task;
 						module.attempt = function(value){
 							var success = this.task.validate(value);
+							Terminal.showFeedback(success);
+							showPanelFeedback('panel-test', success);
 							console.log(success ? 'Success!' : 'Failure.');
 						}
-						terminal.innerText = task.instruction;
+						Terminal.print(task.instruction);
+						Terminal.startTimer(task.id);
 					});					
 				}
 				else{
