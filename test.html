@@ -49,13 +49,16 @@
 		<script type="text/javascript">
 
 			var STATE = {
-				playing: true
+				playing: true,
+				score: {
+					completed: ['testing']
+				}
 			}
 
 			var GLOBAL = {
-				WIN: 7,
-				LOSE: 5,
-				LIMIT: 13
+				WIN: 0,
+				LOSE: 0,
+				LIMIT: 12
 			}
 			
 			var dispatch = function(){};
@@ -75,6 +78,7 @@
 			function startTest(interfaceID, taskID){
 				var terminal = document.getElementById('terminal-test');
 				var task = TASKS[taskID];
+				STATE.playing = true;
 				if(task.interface === interfaceID){
 					var setup = ControlModule('panel-test', interfaceID);
 					setup.then(function(module){
@@ -84,6 +88,7 @@
 							var success = this.task.validate(value);
 							Terminal.showFeedback(success);
 							showPanelFeedback('panel-test', success);
+							STATE.playing = false;
 							console.log(success ? 'Success!' : 'Failure.');
 						}
 						Terminal.print(task.instruction);
