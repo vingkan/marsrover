@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Mars Rover</title>
+		<!--<link rel="icon" type="img/png" href="style/favicon.png" style="width:30px;">-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="assets/reset.css">
+		<!-- <link rel="stylesheet" type="text/less" href="assets/main.less"> -->
+		<link rel="stylesheet" type="text/css" href="assets/main.css">
+		<script type="text/javascript" src="lib/promise.min.js"></script>
+		<link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet">
+		<script src="https://www.gstatic.com/firebasejs/3.6.6/firebase.js"></script>
+		<script src="lib/promise.min.js"></script>
+		<script>
+			// Initialize Firebase
+			var config = {
+				apiKey: "AIzaSyAviWCsQeaHd5YhIMEbXohql3eR6MC1tuA",
+				authDomain: "marsteam-6522c.firebaseapp.com",
+				databaseURL: "https://marsteam-6522c.firebaseio.com",
+				storageBucket: "marsteam-6522c.appspot.com",
+				messagingSenderId: "487026784695"
+			};
+			firebase.initializeApp(config);
+		</script>
+		<style>
+
+			html {
+				background: url('assets/mars_slope.jpg') no-repeat center center fixed; 
+				-webkit-background-size: cover;
+				-moz-background-size: cover;
+				-o-background-size: cover;
+				background-size: cover;
+			}
+
+			body {
+				background: transparent;
+			}
+
+			div#entry h1 {
+				font-size: 45px;
+				padding: 10px 0;
+				color: white;
+				text-shadow: 0 0 15px rgba(0, 0, 0, 1.0);
+				text-transform: uppercase;
+			}
+
+			div#entry{
+				background: transparent;
+				text-align: center;
+			}
+
+			div#entry div.panel, div#start {
+				background: rgba(255, 255, 255, 0.8);
+			}
+
+			div#entry, div#start {
+				display: block;
+				margin: 0 auto;
+			}
+
+			p {
+				text-align: center;
+			}
+
+			iframe {
+				margin: 20px auto;
+			}
+
+			a {
+				text-decoration: none;
+				color: white;
+			}
+
+			a:hover {
+				color: black;
+			}
+
+		</style>
+	</head>
+
+	<body>
+
+		<div class="container">
+			<div id="entry" class="panel">
+				<h1>About Transmission</h1>
+				<div class="panel module">Transmission is a game about teamwork and communication. See how it can turn a group of friends into a team of wacky scientists...</div>
+				<iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+			</div>
+			<p style="color: white;">Created by Sunny Shah & Vinesh Kannan | <a href="https://github.com/vingkan/marsrover/" target="_blank">GitHub</a> | Illinois Tech</p>
+			<br>
+		</div>
+		
+		<script type="text/javascript">
+
+		</script>
+	
+	</body>
+
+</html>
