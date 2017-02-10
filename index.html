@@ -52,7 +52,7 @@
 				background: rgba(255, 255, 255, 0.8);
 			}
 
-			div#entry, div#start {
+			div#entry, div#start, div#video {
 				display: block;
 				margin: 0 auto;
 			}
@@ -74,6 +74,12 @@
 				color: black;
 			}
 
+			iframe {
+				display: block;
+				margin: 20px auto;
+				margin-bottom: 10px;
+			}
+
 		</style>
 	</head>
 
@@ -88,13 +94,10 @@
 				<div class="panel module">
 					<p>The problem? Control panels are split amongst your team. You must communicate incoming commands to the appropriate scientist.</p>
 				</div>
-				<div class="panel module">
-					<p>Start a new mission below and share the Mission ID with your friends. Players can join from laptop or mobile.</p>
-				</div>
 			</div>
 			<div id="start" class="panel">
 				<h2>Start Your Team Mission</h2>
-				<p id="note">For collaboration, for science.</p>
+				<p id="note">Choose a mission ID and share it with your friends.</p>
 				<div id="form-join" class="center">
 					<p id="form-errors"></p>
 					<input id="key" type="text" placeholder="Mission ID">
@@ -107,6 +110,9 @@
 					<button id="invite">Invite Teammates</button>
 					<button id="enter">Enter Mission Control</button>
 				</div>
+			</div>
+			<div id="video">
+				<iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4wad9WgXcQ?autoplay=1" frameborder="0" allowfullscreen></iframe>
 			</div>
 			<br>
 			<p style="color: white;">Created by Sunny Shah & Vinesh Kannan | <a href="https://github.com/vingkan/marsrover/" target="_blank">GitHub</a> | Illinois Tech</p>
